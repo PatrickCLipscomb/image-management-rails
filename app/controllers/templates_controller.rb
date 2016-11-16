@@ -28,22 +28,6 @@ class TemplatesController < ApplicationController
   # Have a seperate model for image that is cropped down by the user. Have this model created whenever the user goes throught the cropping action and allows them to download the image.
 
   def crop
-    @aspect1 = nil
-    @aspect2 = nil
-    if @template.aspect == "0"
-      @aspect1 = 1
-      @aspect2 = 1
-    elsif @template.aspect == "1"
-      @aspect1 = 4
-      @aspect2 = 3
-    elsif @template.aspect == "2"
-      @aspect1 = 16
-      @aspect2 = 9
-    elsif @template.aspect == "3"
-      @aspect1 = 5
-      @aspect2 = 7
-    end
-    binding.pry
     @template = Template.find(params[:id])
     @template.update_attributes(crop_params)
     @template.reprocess_image
@@ -52,6 +36,21 @@ class TemplatesController < ApplicationController
 
   def create
     @template = Template.new(template_params)
+    @aspect1 = nil
+    @aspect2 = nil
+    if params[:aspect] == "0"
+      @aspect1 = 1
+      @aspect2 = 1
+    elsif params[:aspect] == "1"
+      @aspect1 = 4
+      @aspect2 = 3
+    elsif params[:aspect] == "2"
+      @aspect1 = 16
+      @aspect2 = 9
+    elsif params[:aspect] == "3"
+      @aspect1 = 5
+      @aspect2 = 7
+    end
     if @template.save
       if @template.title
         flash[:notice] = @template.title + " Template successfully added!"
