@@ -5,7 +5,9 @@
         onChange: update_crop,
         onSelect: update_crop,
         setSelect: [0, 0, <%= @template.image_geometry(:large).width %>, <%= @template.image_geometry(:original).height %>],
-        aspectRatio: 16/9
+        <% if @aspect1 != nil %>
+          aspectRatio: <%= @aspect1.to_i %>/<%= @aspect2.to_i %>
+        <% end %>
       });
       $("#submit-btn").click(function(event) {
         event.preventDefault();
